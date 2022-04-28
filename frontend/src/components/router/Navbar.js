@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "../home/Home";
 import Profile from "../account/Profile";
+import Login from "../account/Login";
+import Register from "../account/Register";
 
 export default function Navbar(props) {
   return (
     <Router>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             Navbar
@@ -32,13 +34,13 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/acc">
+                <Link className="nav-link" to="/profile">
                   Profile
                 </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
-                  Pricing
+                  About
                 </a>
               </li>
               <li className="nav-item">
@@ -89,7 +91,9 @@ export default function Navbar(props) {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/acc" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
       </Routes>
     </Router>
   );

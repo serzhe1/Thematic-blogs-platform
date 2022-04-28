@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import "bootswatch/dist/lux/bootstrap.min.css";
+import "bootswatch/dist/yeti/bootstrap.min.css";
 import Navbar from "../components/router/Navbar";
 
 class App extends Component {
