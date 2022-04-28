@@ -10,8 +10,10 @@ import lombok.Setter;
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
+    private Long userId;
 
-    public JwtAuthenticationResponse(String accessToken) {
+    public JwtAuthenticationResponse(String accessToken, Long userId) {
         this.accessToken = accessToken;
+        this.userId = userId;
     }
 }
