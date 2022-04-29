@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
+    @Bean(name = "MyPasswordEncoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -81,10 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                     .permitAll()
                 .antMatchers("/api/auth/**")
-                    .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                    .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
                     .permitAll()
                 .anyRequest()
                     .authenticated();

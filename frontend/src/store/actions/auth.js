@@ -2,11 +2,12 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
   LOGOUT,
   SET_MESSAGE,
+  EDIT_USER,
 } from "./types";
 import AuthService from "../../services/authService";
+import userService from "../../services/userService";
 export const register = (name, username, email, password) => (dispatch) => {
   return AuthService.register(name, username, email, password).then(
     (response) => {
@@ -43,23 +44,6 @@ export const login = (username, password) => (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: { user: data },
     });
-    //   return Promise.resolve();
-    // },
-    // (error) => {
-    //   const message =
-    //     (error.response &&
-    //       error.response.data &&
-    //       error.response.data.message) ||
-    //     error.message ||
-    //     error.toString();
-    //   dispatch({
-    //     type: LOGIN_FAIL,
-    //   });
-    //   dispatch({
-    //     type: SET_MESSAGE,
-    //     payload: message,
-    //   });
-    //   return Promise.reject();
   });
 };
 export const logout = () => (dispatch) => {
@@ -67,4 +51,15 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+};
+
+export const editUser = (id, name, username, email, password) => (dispatch) => {
+  return userService
+    .editUser(id, name, username, email, password)
+    .then((data) => {
+      dispatch({
+        type: EDIT_USER,
+        payload: { user: data },
+      });
+    });
 };

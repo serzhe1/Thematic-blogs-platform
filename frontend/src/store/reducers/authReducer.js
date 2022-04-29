@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from "../actions/types";
+import { REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, EDIT_USER} from "../actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = user
@@ -37,6 +37,11 @@ export default function (state = initialState, action) {
         isLoggedIn: false,
         user: null,
       };
+      case EDIT_USER:
+        return {
+          ...state,
+          user: payload.user,
+        };
     default:
       return state;
   }
