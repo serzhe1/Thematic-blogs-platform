@@ -4,11 +4,12 @@ import Home from "../home/Home";
 import Profile from "../account/Profile";
 import Login from "../account/Login";
 import Register from "../account/Register";
+import ProfileSettings from "../account/Settings";
 
 export default function Navbar(props) {
   return (
     <Router>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             Navbar
@@ -94,6 +95,7 @@ export default function Navbar(props) {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
+        <Route path="/profile/settings" element={<ProfileSettings />} />
       </Routes>
     </Router>
   );

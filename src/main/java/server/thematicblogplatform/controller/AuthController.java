@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import server.thematicblogplatform.dto.UserDto;
 import server.thematicblogplatform.exception.AppException;
 import server.thematicblogplatform.model.Role;
 import server.thematicblogplatform.model.User;
@@ -24,6 +25,7 @@ import server.thematicblogplatform.repository.RoleRepository;
 import server.thematicblogplatform.repository.UserRepository;
 import server.thematicblogplatform.security.JwtTokenProvider;
 import server.thematicblogplatform.model.RoleName;
+import server.thematicblogplatform.service.UserService;
 
 import java.net.URI;
 import java.util.Collections;
@@ -33,6 +35,9 @@ import java.util.Collections;
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -57,37 +62,42 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
+        UserDto user = userService.findByUsernameOrEmail(loginRequest.getUsernameOrEmail());
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user.getId()));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userService.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if(userService.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        User user = new User(signUpRequest.getName(),
-                signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword()));
-
-        Role userRole = roleRepository.findByName((RoleName.ROLE_USER))
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        user.setRoles(Collections.singleton(userRole));
-
-        User result = userRepository.save(user);
+//        User user = new User(signUpRequest.getName(),
+//                signUpRequest.getUsername(),
+//                signUpRequest.getEmail(),
+//                passwordEncoder.encode(signUpRequest.getPassword()));
+//
+//        Role userRole = roleRepository.findByName((RoleName.ROLE_USER))
+//                .orElseThrow(() -> new AppException("User Role not set."));
+//
+//        user.setRoles(Collections.singleton(userRole));
+//
+//        User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                .buildAndExpand(userService.save(
+                        signUpRequest.getName(),
+                        signUpRequest.getUsername(),
+                        signUpRequest.getEmail(),
+                        passwordEncoder.encode(signUpRequest.getPassword())
+                ).getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }

@@ -3,6 +3,7 @@ package server.thematicblogplatform.payload;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import server.thematicblogplatform.dto.UserDto;
 
 @Getter
 @Setter
@@ -10,10 +11,10 @@ import lombok.Setter;
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
-    private Long userId;
+    private UserDto user;
 
-    public JwtAuthenticationResponse(String accessToken, Long userId) {
+    public JwtAuthenticationResponse(String accessToken, UserDto user) {
         this.accessToken = accessToken;
-        this.userId = userId;
+        this.user = user;
     }
 }
