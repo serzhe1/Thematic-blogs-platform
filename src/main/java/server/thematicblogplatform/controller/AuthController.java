@@ -78,26 +78,21 @@ public class AuthController {
                     HttpStatus.BAD_REQUEST);
         }
 
-//        User user = new User(signUpRequest.getName(),
-//                signUpRequest.getUsername(),
-//                signUpRequest.getEmail(),
-//                passwordEncoder.encode(signUpRequest.getPassword()));
-//
-//        Role userRole = roleRepository.findByName((RoleName.ROLE_USER))
-//                .orElseThrow(() -> new AppException("User Role not set."));
-//
-//        user.setRoles(Collections.singleton(userRole));
-//
-//        User result = userRepository.save(user);
+        User user = new User(signUpRequest.getName(),
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Role userRole = roleRepository.findByName((RoleName.ROLE_USER))
+                .orElseThrow(() -> new AppException("User Role not set."));
+
+        user.setRoles(Collections.singleton(userRole));
+
+        User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(userService.save(
-                        signUpRequest.getName(),
-                        signUpRequest.getUsername(),
-                        signUpRequest.getEmail(),
-                        passwordEncoder.encode(signUpRequest.getPassword())
-                ).getUsername()).toUri();
+                .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
