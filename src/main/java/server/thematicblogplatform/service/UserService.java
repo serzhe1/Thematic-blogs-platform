@@ -59,11 +59,11 @@ public class UserService {
             user.setName(name);
         }
 
-        if (!username.equals("") && existsByUsername(username)) {
+        if (!username.equals("") && !existsByUsername(username)) {
             user.setUsername(username);
 
         }
-        if (!email.equals("") && existsByEmail(email)) {
+        if (!email.equals("") && !existsByEmail(email)) {
             user.setEmail(email);
         }
 

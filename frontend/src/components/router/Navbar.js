@@ -5,7 +5,8 @@ import Profile from "../account/Profile";
 import Login from "../account/Login";
 import Register from "../account/Register";
 import ProfileSettings from "../account/Settings";
-
+import NewArticle from "../../articles/NewArticle";
+import ReadArticle from "../../articles/ReadArticle";
 export default function Navbar(props) {
   return (
     <Router>
@@ -40,10 +41,11 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  About
-                </a>
+                <Link className="nav-link" to="/article">
+                  Article
+                </Link>
               </li>
+            
               <li className="nav-item">
                 <a className="nav-link" href="#">
                   About
@@ -96,6 +98,8 @@ export default function Navbar(props) {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/profile/settings" element={<ProfileSettings />} />
+        <Route path="/article/new" element={<NewArticle />} />
+        <Route path="/article" element={<ReadArticle />} />
       </Routes>
     </Router>
   );

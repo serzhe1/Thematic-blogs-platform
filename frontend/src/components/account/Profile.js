@@ -11,10 +11,16 @@ const Profile = () => {
     dispatch(logout());
   };
 
-  const handleButton = () => {
-    const path = "/";
-    navigate(path);
+  const handleButton = (path) => {
+    const path1 = path
+    navigate(path1);
   };
+
+  const handleButtonNewArticle = () => {
+    const path="/article/new"
+    navigate(path)
+  }
+
   const handleButtonSettings = () => {
     const path="/profile/settings"
     navigate(path)
@@ -50,13 +56,13 @@ const Profile = () => {
                   {" "}
                   <button
                     className="btn btn-outline-primary px-4"
-                    onClick={handleButton}
+                    onClick={handleButtonNewArticle}
                   >
                     New Article
                   </button>{" "}
                   <button
                     className="btn btn-outline-primary px-4"
-                    onClick={handleButton}
+                    onClick={handleButton('/')}
                   >
                     Saved Atricles
                   </button>{" "}
