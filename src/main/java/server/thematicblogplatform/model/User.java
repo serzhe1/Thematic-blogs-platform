@@ -39,6 +39,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_artilce",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
+    private Set<Article> savedArticles = new HashSet<>();
+
     public User(String name, String username, String email, String password) {
         this.name = name;
         this.email = email;
