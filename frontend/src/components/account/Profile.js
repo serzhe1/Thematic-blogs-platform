@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/auth";
+import { findAll } from "../../store/actions/tags";
 const Profile = () => {
   let navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -11,20 +12,27 @@ const Profile = () => {
     dispatch(logout());
   };
 
-  const handleButton = (path) => {
-    const path1 = path
-    navigate(path1);
+  const handleButtonSavedArticles = () => {
+    const path = "/article/saved";
+    navigate(path, {
+      state: { myArticles: false, username: currentUser.user.username },
+    });
+  };
+
+  const handleButtonMyArticles = () => {
+    const path = "/article/my";
+    navigate(path, { state: { myArticles: true, id: currentUser.user.id } });
   };
 
   const handleButtonNewArticle = () => {
-    const path="/article/new"
-    navigate(path)
-  }
+    const path = "/article/new";
+    navigate(path, { state: { edit: false } });
+  };
 
   const handleButtonSettings = () => {
-    const path="/profile/settings"
-    navigate(path)
-  }
+    const path = "/profile/settings";
+    navigate(path);
+  };
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -62,9 +70,15 @@ const Profile = () => {
                   </button>{" "}
                   <button
                     className="btn btn-outline-primary px-4"
-                    onClick={handleButton('/')}
+                    onClick={handleButtonSavedArticles}
                   >
                     Saved Atricles
+                  </button>{" "}
+                  <button
+                    className="btn btn-outline-primary px-4"
+                    onClick={handleButtonMyArticles}
+                  >
+                    My Articles
                   </button>{" "}
                   <button
                     className="btn btn-outline-primary px-4"
@@ -74,11 +88,11 @@ const Profile = () => {
                   </button>{" "}
                 </div>
                 <button
-                    className="btn btn-outline-primary px-4 mt-2"
-                    onClick={logOut}
-                  >
-                    LogOut
-                  </button>{" "}
+                  className="btn btn-outline-primary px-4 mt-2"
+                  onClick={logOut}
+                >
+                  LogOut
+                </button>{" "}
               </div>
             </div>
           </div>

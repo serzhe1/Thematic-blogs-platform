@@ -7,6 +7,7 @@ import Register from "../account/Register";
 import ProfileSettings from "../account/Settings";
 import NewArticle from "../../articles/NewArticle";
 import ReadArticle from "../../articles/ReadArticle";
+import ListArticles from "../../articles/ArticlesList";
 export default function Navbar(props) {
   return (
     <Router>
@@ -100,6 +101,8 @@ export default function Navbar(props) {
         <Route path="/profile/settings" element={<ProfileSettings />} />
         <Route path="/article/new" element={<NewArticle />} />
         <Route path="/article" element={<ReadArticle />} />
+        <Route path="/article/my" element={<ListArticles />} />
+        <Route path="/article/saved" element={<ListArticles />} />
       </Routes>
     </Router>
   );

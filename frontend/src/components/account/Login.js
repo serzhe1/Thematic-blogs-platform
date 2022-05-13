@@ -48,7 +48,7 @@ const Login = (props) => {
               className="card border-info mb-3 mw-10 mt-5"
               alt="Max-width 10%"
             >
-              <div className="card-header">LogIn</div>
+              <div className="card-header text-center">LogIn</div>
               <div className="card-body">
                 <div className="form-group">
                   <label
@@ -89,7 +89,7 @@ const Login = (props) => {
               >
                 LogIn
               </button>
-              <p className="mt-3">or</p>
+              <p className="mt-3 text-center">or</p>
               <button
                 type="button"
                 className="btn btn-primary"
