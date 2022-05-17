@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.thematicblogplatform.dto.ArticleDto;
 import server.thematicblogplatform.dto.ArticleWithSubscribersDto;
+import server.thematicblogplatform.dto.TagDto;
 import server.thematicblogplatform.dto.UserWithArticlesDto;
 import server.thematicblogplatform.model.Article;
 import server.thematicblogplatform.model.User;
 import server.thematicblogplatform.repository.ArticleRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,7 @@ public class ArticleService {
         return mappingUtils.mapToArticleDto(articleRepository.findById(id).get());
     }
 
-    public ArticleDto save (ArticleDto dto) {
+    public ArticleDto save(ArticleDto dto) {
         articleRepository.save(mappingUtils.mapToArticleEntity(dto));
 
         return dto;
@@ -61,5 +60,37 @@ public class ArticleService {
 
     public Article findById(Long id) {
         return articleRepository.findById(id).get();
+    }
+
+    public List<ArticleDto> findAll() {
+        return articleRepository.findAll().stream().map(
+                e -> mappingUtils.mapToArticleDto(e)
+        ).collect(Collectors.toList());
+    }
+
+    public List<ArticleDto> searchByName(String name) {
+        return articleRepository.findAllByNameContaining(name).stream().map(
+                e -> mappingUtils.mapToArticleDto(e)
+        ).collect(Collectors.toList());
+    }
+
+    public List<ArticleDto> searchByAllParams(String name, List<Long> tags) {
+        if(name.equals("") && tags.contains(-1L))
+            return null;
+        if (!tags.contains(-1L)) {
+            List<ArticleDto> articles = searchByName(name);
+
+            for (ArticleDto article : List.copyOf(articles)) {
+                for (TagDto tag : article.getTags()) {
+                    if (!tags.contains(tag.getId())) {
+                        articles.remove(article);
+                        break;
+                    }
+                }
+            }
+
+            return articles;
+        } else
+            return searchByName(name);
     }
 }

@@ -129,4 +129,13 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public void saveArticle (Long id, Article article) {
+        User user = userRepository.findById(id).get();
+        Set<Article> updated = user.getSavedArticles();
+        updated.add(article);
+        user.setSavedArticles(updated);
+
+        userRepository.save(user);
+    }
 }

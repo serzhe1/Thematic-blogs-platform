@@ -13,3 +13,7 @@ export const GET_SAVED_ARTICLES = "GET_SAVED_ARTICLES";
 export const UPDATE_ARTICLE = "UPDATE_ARTICLE";
 export const REMOVE_ARTICLE = "REMOVE_ARTICLE";
 export const DELETE_SAVED_ARTICLE = "DELETE_SAVED_ARTICLE";
+export const FIND_ALL_BY_TYPE = "FIND_ALL_BY_TYPE";
+export const FIND_ALL = "FIND_ALL";
+export const SAVE_ARTICLE = "SAVE_ARTICLE";
+export const SEARCH = "SEARCH";

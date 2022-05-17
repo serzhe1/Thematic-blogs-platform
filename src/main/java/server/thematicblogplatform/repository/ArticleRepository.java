@@ -11,4 +11,8 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByAuthor (User author);
+
+    List<Article> findAllByNameContaining(String name);
+
+    List<Article> findAllByType(Boolean type);
 }

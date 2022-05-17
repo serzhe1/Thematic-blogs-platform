@@ -4,11 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.thematicblogplatform.dto.ArticleDto;
+import server.thematicblogplatform.dto.TagDto;
+import server.thematicblogplatform.model.Article;
 import server.thematicblogplatform.payload.ArticleRequest;
 import server.thematicblogplatform.payload.ArticleUpdateRequest;
+import server.thematicblogplatform.payload.SaveArticleRequest;
 import server.thematicblogplatform.service.ArticleService;
 import server.thematicblogplatform.service.TagService;
 import server.thematicblogplatform.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/articles")
@@ -62,15 +69,32 @@ public class ArticleController {
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<?> remove (@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         articleService.removeById(id);
         return ResponseEntity.ok("success removing");
     }
 
     @DeleteMapping("/{username}/saved/{id}")
-    public ResponseEntity<?> removeSaved (@PathVariable String username, @PathVariable Long id) {
+    public ResponseEntity<?> removeSaved(@PathVariable String username, @PathVariable Long id) {
         userService.deleteSavedArticle(username, articleService.findById(id));
 
         return ResponseEntity.ok("success removing");
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(articleService.findAll());
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> saveArticle(@RequestBody SaveArticleRequest saveArticleRequest) {
+        Article article = articleService.findById(saveArticleRequest.getArticle_id());
+        userService.saveArticle(saveArticleRequest.getUser_id(), article);
+        return ResponseEntity.ok("success saving");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String search, @RequestParam Long[] tags) {
+        return ResponseEntity.ok(articleService.searchByAllParams(search, new ArrayList<>(Arrays.asList(tags))));
     }
 }
